@@ -11,13 +11,13 @@ Public cellular traces captured at the UE itself are scarce. Most available data
 ```
 pcap/
 └── compiled/
-    ├── attacks_compiled/   # 47 PCAPs — FBS / misbehavior traces, 8 attack categories
-    └── normal_compiled/    # 131 PCAPs — benign cellular sessions
+    ├── attacks_compiled/   # 49 PCAPs — FBS / misbehavior traces, 8 attack categories
+    └── normal_compiled/    # 133 PCAPs — benign cellular sessions
 ```
 
 | Category                     | Representative scenarios                                                                                                  |
 | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| Encryption / security bypass | `null_encryption`, `no_security_headers` (LTE × 8, 5G × 2)                                                                |
+| Encryption / security bypass | `null_encryption` (× 2), `no_security_headers` (LTE × 8, 5G × 2), `ciphered_nas_anomaly`                                  |
 | Identity catching            | `imsi_catching`, `imei_catching`, `capability_hijacking`                                                                  |
 | Network downgrade            | `downgrade_tau_attack`, `detach_downgrade` (× 3), `sib1_tac_attack`                                                       |
 | Service rejection            | `service_reject` (× 2), `attach_reject` (× 2), `tau_reject`, `tau_reject_nmap`, `rrc_reestablish_reject`                  |
