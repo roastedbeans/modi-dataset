@@ -4434,7 +4434,7 @@
       "target_name": "5g_commercial_45005_2026_05_14_15_22_36.csv"
     },
     {
-      "file": "5g_commercial_45005_2026_05_12_15_05_00.csv",
+      "file": "5g_test_00101_2026_05_12_15_05_00.csv",
       "orig_file": "normal_5g_session_72.csv",
       "group": "5G session",
       "capture_start": null,
@@ -4593,8 +4593,8 @@
         "mm_5gs": [],
         "emm_eps": []
       },
-      "origin_class": "commercial",
-      "origin_reason": "NR band n78 (commercial 5G)",
+      "origin_class": "test",
+      "origin_reason": "testbed: NAS PLMN 00101 / 5G SA (nas-5gs, open5gs)",
       "markers": {
         "commercial": [
           "NR band n78 (commercial 5G)"
@@ -11832,7 +11832,7 @@
       "target_name": "lte_commercial_45005_2026_04_14_15_35_52.csv"
     },
     {
-      "file": "lte_commercial_45005_2026_04_14_16_02_08.csv",
+      "file": "lte_test_00101_2026_04_14_16_02_08.csv",
       "orig_file": "normal_2026_04_14_16_02_08.csv",
       "group": "timestamped DIAG session",
       "capture_start": "2026-04-14 16:02:08",
@@ -12035,8 +12035,8 @@
         "mm_5gs": [],
         "emm_eps": []
       },
-      "origin_class": "commercial",
-      "origin_reason": "real subscriber IMSI (1 foreign)",
+      "origin_class": "test",
+      "origin_reason": "testbed: NAS PLMN 00101",
       "markers": {
         "commercial": [
           "real subscriber IMSI (1 foreign)"
