@@ -1,5 +1,12 @@
 # Scenario-to-Normal-Data Coverage
 
+> **Superseded — counts below describe an earlier corpus.** This analysis was
+> derived from the 192-trace set (140 normal). The corpus is now **331 traces:
+> 194 normal and 137 attack**, and the CSVs it cites were additionally missing
+> their whole NAS layer due to a parser/toolchain defect since fixed. Every
+> per-category count, trace total and confidence verdict below therefore needs
+> re-deriving against the regenerated `dataset_csv/` before it is cited.
+
 Mapping of the planned data-collection scenarios to the normal traces that the
 192-trace MODI evaluation set actually contains (140 normal traces in
 `dataset_csv/spec/normal/`). Coverage is judged from the layer-3 control-plane

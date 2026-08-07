@@ -11,20 +11,54 @@ Public cellular traces captured at the UE itself are scarce. Most available data
 ```
 pcap/
 └── compiled/
-    ├── attacks_compiled/   # 49 PCAPs — FBS / misbehavior traces, 8 attack categories
-    └── normal_compiled/    # 133 PCAPs — benign cellular sessions
+    ├── attacks_compiled/          # 70 PCAPs  — FBS / misbehavior traces, 29 scenarios in 8 categories
+    ├── normal_compiled/           # 162 PCAPs — benign cellular sessions
+    ├── testbed_insecure_compiled/ # 23 PCAPs  — lab captures, not usable as benign or attack ground truth (see below)
+    └── flagged_review_compiled/   # 9 PCAPs   — labelled normal, flagged for a genuine spec violation (see below)
 ```
 
 | Category                     | Representative scenarios                                                                                                  |
 | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| Encryption / security bypass | `null_encryption` (× 2), `no_security_headers` (LTE × 8, 5G × 2), `ciphered_nas_anomaly`                                  |
+| Encryption / security bypass | `null_encryption` (× 2), `no_security_headers` (LTE × 6, 5G × 2), `ciphered_nas_anomaly`                                  |
 | Identity catching            | `imsi_catching`, `imei_catching`, `capability_hijacking`                                                                  |
-| Network downgrade            | `downgrade_tau_attack`, `detach_downgrade` (× 3), `sib1_tac_attack`                                                       |
+| Network downgrade            | `downgrade` (× 10), `downgrade_tau_attack`, `detach_downgrade` (× 3), `sib1_tac_attack`                                   |
 | Service rejection            | `service_reject` (× 2), `attach_reject` (× 2), `tau_reject`, `tau_reject_nmap`, `rrc_reestablish_reject`                  |
 | Authentication abuse         | `authentication_failure`, `auth_relay_synch_failure`, `malformed_identity_request`                                        |
-| Location / tracking          | `location_tracking_measurement_report`, `paging_channel_hijacking` (× 2), `handover_hijacking`                            |
-| Resource / energy depletion  | `energy_depletion`, `replay_energy_depletion_auth`, `panic_attack` (× 2)                                                  |
-| Stealth / state manipulation | `stealthy_kicking_off` (× 7), `lullaby_attack_rrc_reconfiguration` (× 2), `emm_information`                               |
+| Location / tracking          | `location_tracking_measurement_report`, `paging_channel_hijacking`, `handover_hijacking`                                  |
+| Resource / energy depletion  | `signal_ddos` (× 15), `energy_depletion`, `replay_energy_depletion_auth`, `panic_attack` (× 2)                            |
+| Stealth / state manipulation | `stealthy_kicking_off` (× 6), `lullaby_attack_rrc_reconfiguration` (× 2), `emm_information`                               |
+
+The benign corpus breaks down as 72 `lte_commercial`, 48 `5g_commercial`, 31 `lte_test`,
+10 `3g_commercial` and 1 `5g_commercial_45008` capture.
+
+### Data-quality exclusions
+
+Two categories were split out of `attacks_compiled`/`normal_compiled` after
+verification against a rule-based UE-side detector (spec-violation checks over
+RRC + NAS) surfaced systematic labelling problems in a since-added batch of
+captures. Neither issue affects the original, hand-verified 47-trace attack set
+or the bulk of the normal corpus.
+
+- **67 traces removed from `attacks_compiled`** (46 of 64 `signal_ddos`, 16 of
+  26 `downgrade`, plus 5 isolated traces from other scenarios). Each one has
+  zero connection-layer signalling rows and no NAS content — a pure SIB/paging
+  broadcast recording with no observable trace of the labelled attack. The
+  detector, an independent message-rate check, and a NAS-presence check all
+  agree the attack event is not inside the captured window. These are removed
+  entirely, not retained under another label — see `MODI-parser`'s dataset
+  evaluation notes for the full per-file list.
+- **`testbed_insecure_compiled/` (23 traces)**, formerly `normal_compiled`'s
+  `5g_test_00101` captures: the Open5GS 5G-SA lab core runs NEA0 (null
+  ciphering) with null-scheme SUCI (cleartext IMSI) by configuration, which is
+  indistinguishable from an attack at the RRC/NAS layer. They are genuine
+  benign *sessions* but not valid *ground truth* for a spec-compliance
+  detector either way — split out rather than deleted.
+- **`flagged_review_compiled/` (9 traces)**, formerly `normal_compiled`: 5
+  `lte_commercial` (4 from one 2026-05-21 session) and 4 `5g_commercial`
+  captures on the commercial network that trip null-cipher / broadcast-rate
+  checks. Unlike the testbed case there is no known configuration explanation
+  — these need manual review before being restored to `normal_compiled` or
+  relabelled, and should not be treated as verified in either direction.
 
 ### File naming
 
